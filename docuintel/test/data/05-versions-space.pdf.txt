@@ -1,0 +1,62 @@
+
+
+Ayush Kumar Mishra
+Mangalore 
+ 8088683719
+ayushkmishra22aug@gmail.com
+linkedin.com/in/ayush-mishra25
+AyushKumarMishra5
+Experience
+Software Engineer Intern · Mcleuker, Paris (Remote)                                               July 2025 - Dec 2025
+Accelerated feature delivery on a live MERN stack product by owning end-to-end implementation from
+requirement shaping in sprint planning to production deployment.
+Slashed response latency on mobile app features by refactoring component logic and eliminating
+redundant API calls, directly improving user experience.
+Strengthened product reliability by designing RESTful backend APIs and system architecture patterns
+focused on security, scalability, and maintainability.
+Software Developer · Brainstorm League, LPU                                                         Jan 2025 - June 2025 
+Drove the full build of the club's web platform from zero gathered requirements, led the developer team,
+and delivered on schedule, replacing all manual processes.
+Boosted member engagement by architecting a centralised platform that consolidated all club activity
+into a single organised hub.
+Projects
+VyraMind ·  AI Healthcare Platform                                                                                                May 2026 
+Engineered an AI pre-consultation engine that conducts structured patient interviews, assesses urgency,
+and auto-generates detailed medical reports.
+Closed the patient-doctor gap by integrating WebRTC video consultations with a real-time AI medical scribe
+that extracts clinical data and delivers structured consultation reports to both parties instantly.
+Github : https://github.com/AyushKumarMishra5/VyraMind
+Live : https://vyramind.netlify.app
+Certifications
+Generative AI  (Geek for Geeks)                                                                                                       Aug 2025                     
+Skills: LLM, Transformers, NLP, Image Generation
+ 
+Meta Front-end Development Professional (Coursera)                                                                  Aug 2024 
+Skills : React, UI/UX Design, Responsive Design, Testing, Debugging
+ 
+Core Skills
+Languages:   HTML, CSS, JavaScript, Python, C++ 
+ 
+Frontend: React.js, Next.js, Angular.js, Tailwind CSS, Bootstrap, ShadCN, Framer Motion 
+Backend: Node.js, Express.js, WebSocket, PHP, FastAPI, 
+Databases: MongoDB, SQL
+Tools & Others: Git, Postman, Netlify, RESTAPIs, Vercel, Render, Appsmith, Jira, Notion
+Key Skills: Data Structures & Algorithms,  Responsive Web Design, OOP
+Education
+Bachelor of Computer Applications                                                                                                        2025 
+Lovely Professional University -  CGPA: 7.3                                                                                                                      Jalandhar, Punjab 
+National Institute of open Schooling                                                                                                       2022
+12th with Commerce - Percentage: 76%                                                                                                              Greater Noida, New Delhi
+Delhi Public School                                                                                                                                   2020 
+Secondary Education                                                                                                                                                  Mangalore, Karnataka
+Full-stack developer skilled in MERN and Next.js, specialising in REST API design, AI integrations, and role-based system architecture.
+Proven track record of shipping production-grade applications from system design and backend infrastructure to deployment.
+Recruiter AI Copilot                                                                                                                          May 2026 
+Eliminated manual resume screening by engineering an AI ranking engine that scores and matches
+candidates against job descriptions using OpenAI API and semantic vector search cutting shortlisting time
+drastically.
+Reduced recruiter workload by delivering a full pipeline dashboard with AI-ranked candidate profiles, stage
+tracking, and structured notes backed by a scalable Express.js and MongoDB architecture.
+Github : https://github.com/AyushKumarMishra5/Recruiter-Ai-Copilot
+Live : https://recruiteraicopilot.netlify.app
+AI & Integrations: OpenAI API, Streaming Completions, LLMs, NLP, Vector Search
