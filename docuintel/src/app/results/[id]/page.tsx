@@ -1,8 +1,3 @@
-/**
- * Results Page - Analysis Results Dashboard with Document Viewer
- * Enhanced with loading states and proper DB lookup
- */
-
 import { AppHeader } from '@/components/layout/AppHeader';
 import { getSessionId } from '@/lib/session';
 import { getDBAdapter } from '@/lib/db/adapter';
@@ -18,23 +13,26 @@ interface ResultsPageProps {
   searchParams?: Promise<{ retry?: string }>;
 }
 
-// Retry logic for in-memory DB race conditions
 async function getAnalysisWithRetry(documentId: string, attempt = 1): Promise<any> {
   const db = await getDBAdapter();
+  
+  console.log(`[ResultsPage] Attempting to fetch analysis for ${documentId}, attempt ${attempt}`);
+  
   const analysis = await db.getAnalysis(documentId);
 
-  if (analysis || attempt >= 3) {
+  if (analysis) {
+    console.log(`[ResultsPage] ✅ Analysis found on attempt ${attempt}`);
     return analysis;
   }
 
-  // Wait and retry
-  await new Promise(resolve => setTimeout(resolve, attempt * 300));
-  return getAnalysisWithRetry(documentId, attempt + 1);
-}
+  if (attempt >= 5) {
+    console.log(`[ResultsPage] ❌ Analysis not found after ${attempt} attempts`);
+    return null;
+  }
 
-// Simulate loading delay for better UX
-async function simulateLoading() {
-  await new Promise(resolve => setTimeout(resolve, 400));
+  console.log(`[ResultsPage] ⏳ Waiting before retry ${attempt + 1}...`);
+  await new Promise(resolve => setTimeout(resolve, attempt * 500));
+  return getAnalysisWithRetry(documentId, attempt + 1);
 }
 
 export default async function ResultsPage({ params, searchParams }: ResultsPageProps) {
@@ -43,29 +41,28 @@ export default async function ResultsPage({ params, searchParams }: ResultsPageP
   const retry = (paramsObj?.retry as string) || '0';
   const sessionId = await getSessionId();
 
-  console.log(`[ResultsPage] Loading result for document: ${id}, attempt: ${retry}`);
+  console.log(`[ResultsPage] Loading result for document: ${id}, retry: ${retry}`);
 
-  // Start loading simulation
-  await simulateLoading();
+  await new Promise(resolve => setTimeout(resolve, 200));
 
   const db = await getDBAdapter();
   const document = await db.getDocument(id);
-  const analysis = await getAnalysisWithRetry(id, parseInt(retry));
-
-  if (!document || !analysis) {
-    console.log(`[ResultsPage] Document or analysis not found for ${id}`);
-    if (parseInt(retry) < 2) {
-      // Show loading with retry option
+  
+  if (!document) {
+    console.log(`[ResultsPage] ❌ Document not found: ${id}`);
+    if (parseInt(retry) < 3) {
       return (
-        <div className="min-h-screen flex flex-col items-center justify-center p-8">
-          <div className="animate-spin h-12 w-12 text-accent mb-4">
-            <Loader2 className="h-12 w-12" />
+        <div className="min-h-screen flex flex-col items-center justify-center p-8 bg-black">
+          <div className="animate-spin h-16 w-16 text-accent mb-6">
+            <Loader2 className="h-16 w-16" />
           </div>
-          <div className="text-center">
-            <h2 className="font-display text-2xl text-text-primary mb-2">Loading Results...</h2>
-            <p className="text-text-secondary mb-6">Please wait while we retrieve your analysis</p>
+          <div className="text-center max-w-md">
+            <h2 className="font-display text-3xl text-text-primary mb-3">Loading Results...</h2>
+            <p className="text-text-secondary mb-6">Please wait while we retrieve your analysis (attempt {parseInt(retry) + 1})</p>
             <Link href={`/results/${id}?retry=${parseInt(retry) + 1}`}>
-              <Button>Retry Loading</Button>
+              <Button size="lg" className="bg-accent text-black font-bold">
+                Retry Loading
+              </Button>
             </Link>
           </div>
         </div>
@@ -74,7 +71,33 @@ export default async function ResultsPage({ params, searchParams }: ResultsPageP
     notFound();
   }
 
-  // Create a simple extraction from stored text
+  const analysis = await getAnalysisWithRetry(id, 1);
+
+  if (!analysis) {
+    console.log(`[ResultsPage] ❌ Analysis not found after retries for ${id}`);
+    if (parseInt(retry) < 3) {
+      return (
+        <div className="min-h-screen flex flex-col items-center justify-center p-8 bg-black">
+          <div className="animate-spin h-16 w-16 text-accent mb-6">
+            <Loader2 className="h-16 w-16" />
+          </div>
+          <div className="text-center max-w-md">
+            <h2 className="font-display text-3xl text-text-primary mb-3">Processing Analysis...</h2>
+            <p className="text-text-secondary mb-6">Your document is still being analyzed. This may take a moment.</p>
+            <Link href={`/results/${id}?retry=${parseInt(retry) + 1}`}>
+              <Button size="lg" className="bg-accent text-black font-bold">
+                Check Again
+              </Button>
+            </Link>
+          </div>
+        </div>
+      );
+    }
+    notFound();
+  }
+
+  console.log(`[ResultsPage] ✅ Successfully loaded analysis for ${id}`);
+
   const extractionPlaceholder: import('@/lib/types').ExtractionResult = {
     documentId: document.id,
     fullText: "Document text would be loaded here from storage",

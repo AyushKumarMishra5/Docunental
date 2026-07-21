@@ -14,13 +14,14 @@
     "verify": "pnpm type-check && pnpm lint && pnpm test && pnpm build"
   },
   "dependencies": {
+    "@auth/mongodb-adapter": "^3.11.2",
     "@aws-sdk/client-s3": "^3.1086.0",
     "@types/uuid": "^11.0.0",
     "clsx": "^2.1.1",
     "framer-motion": "^12.42.2",
     "lucide-react": "^1.24.0",
     "mammoth": "^1.12.0",
-    "mongodb": "^7.5.0",
+    "mongodb": "^6.21.0",
     "next": "14.2.35",
     "openai": "^6.46.0",
     "pdf-parse": "1.1.1",

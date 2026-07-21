@@ -46,9 +46,15 @@ Identify section headings (numbered, lettered, or titled) and extract the text f
       temperature: 0.1,
     });
 
+    console.log('OpenRouter extract response:', JSON.stringify(response, null, 2));
+
+    if (!response.choices || response.choices.length === 0) {
+      throw new Error('No choices in AI response');
+    }
+
     const content = response.choices[0]?.message?.content;
     if (!content) {
-      throw new Error('Empty response from AI');
+      throw new Error('Empty content in AI response');
     }
 
     const parsed = JSON.parse(content);
@@ -107,9 +113,13 @@ Focus on actual risks present in the document. Be specific and cite exact text.`
       temperature: 0.2,
     });
 
+    if (!response.choices || response.choices.length === 0) {
+      throw new Error('No choices in AI response');
+    }
+
     const content = response.choices[0]?.message?.content;
     if (!content) {
-      throw new Error('Empty response from AI');
+      throw new Error('Empty content in AI response');
     }
 
     const parsed = JSON.parse(content);
@@ -151,9 +161,13 @@ Return a JSON object with:
       temperature: 0.3,
     });
 
+    if (!response.choices || response.choices.length === 0) {
+      throw new Error('No choices in AI response');
+    }
+
     const content = response.choices[0]?.message?.content;
     if (!content) {
-      throw new Error('Empty response from AI');
+      throw new Error('Empty content in AI response');
     }
 
     return JSON.parse(content);

@@ -97,14 +97,17 @@ export function UploadZone() {
         throw new Error('No successful uploads. Please try again.');
       }
 
-      setProgress('Redirecting to results...');
+      setProgress('Analysis complete! Loading results...');
       
       toast.success('Analysis complete!', {
         description: `Found ${successResult.findingsCount} findings with risk score ${successResult.riskScore}`,
       });
 
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
       const resultUrl = `/results/${successResult.documentId}`;
-      window.location.assign(resultUrl);
+      console.log(`[UploadZone] Navigating to: ${resultUrl}`);
+      window.location.href = resultUrl;
       
     } catch (error) {
       console.error('Upload error:', error);
@@ -214,20 +217,25 @@ export function UploadZone() {
             onClick={handleUpload} 
             disabled={uploading}
             size="lg"
-            className="w-full h-14 text-lg font-bold relative group overflow-hidden bg-gradient-to-r from-accent to-cyan-400 hover:from-cyan-400 hover:to-accent border-2 border-accent/50 shadow-lg shadow-accent/30 text-black"
+            className="w-full h-16 text-xl font-black relative overflow-hidden bg-gradient-to-r from-cyan-400 via-accent to-cyan-500 hover:from-cyan-500 hover:via-accent hover:to-cyan-400 border-4 border-cyan-400/80 shadow-2xl shadow-cyan-400/50 transition-all duration-300 hover:scale-[1.02]"
+            style={{ color: '#000000' }}
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
             {uploading ? (
-              <>
-                <Loader className="h-5 w-5 mr-2 animate-spin relative z-10" />
-                <span className="relative z-10">ANALYZING...</span>
-              </>
+              <div className="flex items-center justify-center relative z-20">
+                <Loader className="h-6 w-6 mr-3 animate-spin" style={{ color: '#000000' }} />
+                <span style={{ color: '#000000' }}>ANALYZING...</span>
+              </div>
             ) : (
-              <>
-                <Zap className="h-5 w-5 mr-2 relative z-10" />
-                <span className="relative z-10">START ANALYSIS</span>
-                <span className="ml-2 text-xs relative z-10">({files.length} file{files.length !== 1 ? 's' : ''})</span>
-              </>
+              <div className="flex items-center justify-center relative z-20">
+                <Zap className="h-6 w-6 mr-3 animate-pulse" style={{ color: '#000000' }} />
+                <span style={{ color: '#000000' }}>START ANALYSIS</span>
+                {files.length > 0 && (
+                  <span className="ml-3 text-sm font-bold px-3 py-1 bg-black/20 rounded-full" style={{ color: '#000000' }}>
+                    {files.length} file{files.length !== 1 ? 's' : ''}
+                  </span>
+                )}
+              </div>
             )}
           </Button>
         </div>
